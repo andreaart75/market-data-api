@@ -1,0 +1,65 @@
+openapi: 3.1.0
+info:
+  title: Alpha Vantage API
+  description: Ottiene dati di mercato in tempo reale per un'azione specifica.
+  version: 1.0.0
+servers:
+  - url: "https://www.alphavantage.co/query?apikey=UWWIG9N0N8VGSRMK"
+paths:
+  /query:
+    get:
+      operationId: getStockPrice
+      summary: Ottiene i dati di mercato in tempo reale per un'azione
+      parameters:
+        - name: function
+          in: query
+          required: true
+          description: Tipo di dati richiesti (es. TIME_SERIES_INTRADAY)
+          schema:
+            type: string
+            enum: [TIME_SERIES_INTRADAY]
+        - name: symbol
+          in: query
+          required: true
+          description: Simbolo dell'azione (es. AAPL per Apple)
+          schema:
+            type: string
+        - name: interval
+          in: query
+          required: true
+          description: Intervallo di aggiornamento (es. 5min, 15min)
+          schema:
+            type: string
+            enum: [1min, 5min, 15min, 30min, 60min]
+      responses:
+        '200':
+          description: Dati di mercato in tempo reale
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta Data:
+                    type: object
+                    properties:
+                      1. Information:
+                        type: string
+                      2. Symbol:
+                        type: string
+                      3. Last Refreshed:
+                        type: string
+                  Time Series (5min):
+                    type: object
+                    additionalProperties:
+                      type: object
+                      properties:
+                        1. open:
+                          type: string
+                        2. high:
+                          type: string
+                        3. low:
+                          type: string
+                        4. close:
+                          type: string
+                        5. volume:
+                          type: string
