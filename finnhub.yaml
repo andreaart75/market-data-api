@@ -1,0 +1,57 @@
+openapi: 3.1.0
+info:
+  title: Finnhub API
+  description: Ottiene dati di mercato in tempo reale da Finnhub.
+  version: 1.0.0
+servers:
+  - url: "https://finnhub.io/api/v1"
+paths:
+  /quote:
+    get:
+      operationId: getStockQuote
+      summary: Ottiene il prezzo in tempo reale di un'azione
+      parameters:
+        - name: symbol
+          in: query
+          required: true
+          description: Simbolo dell'azione (es. AAPL per Apple)
+          schema:
+            type: string
+        - name: token
+          in: query
+          required: true
+          description: cuucfhpr01qlidi35km0cuucfhpr01qlidi35kmg
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dati di mercato in tempo reale
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  c:
+                    type: number
+                    description: Prezzo attuale
+                  d:
+                    type: number
+                    description: Variazione di prezzo
+                  dp:
+                    type: number
+                    description: Percentuale di variazione
+                  h:
+                    type: number
+                    description: Massimo del giorno
+                  l:
+                    type: number
+                    description: Minimo del giorno
+                  o:
+                    type: number
+                    description: Prezzo di apertura
+                  pc:
+                    type: number
+                    description: Prezzo di chiusura precedente
+                  t:
+                    type: integer
+                    description: Timestamp dell'ultimo aggiornamento
