@@ -1,0 +1,100 @@
+openapi: 3.1.0
+info:
+  title: Polygon.io API
+  description: Ottiene sia i dati in tempo reale che i dati di chiusura del giorno precedente da Polygon.io.
+  version: 1.0.0
+servers:
+  - url: "https://api.polygon.io/v2"
+paths:
+  /last/nbbo/{symbol}:
+    get:
+      operationId: getLiveStockPrice
+      summary: Ottiene il prezzo in tempo reale di un'azione
+      parameters:
+        - name: symbol
+          in: path
+          required: true
+          description: Simbolo dell'azione (es. AAPL per Apple)
+          schema:
+            type: string
+        - name: apiKey
+          in: query
+          required: true
+          description: _Knz0YjEeSNTa9WDz2v9DQs6Bb7ycz8l
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Prezzo in tempo reale
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  symbol:
+                    type: string
+                    description: Simbolo dell'azione
+                  bidPrice:
+                    type: number
+                    description: Prezzo BID attuale
+                  askPrice:
+                    type: number
+                    description: Prezzo ASK attuale
+                  bidSize:
+                    type: integer
+                    description: Volume BID
+                  askSize:
+                    type: integer
+                    description: Volume ASK
+                  timestamp:
+                    type: integer
+                    description: Timestamp dell'ultimo aggiornamento
+
+  /aggs/ticker/{symbol}/prev:
+    get:
+      operationId: getStockPrevClose
+      summary: Ottiene il prezzo di chiusura del giorno precedente per un'azione
+      parameters:
+        - name: symbol
+          in: path
+          required: true
+          description: Simbolo dell'azione (es. AAPL per Apple)
+          schema:
+            type: string
+        - name: apiKey
+          in: query
+          required: true
+          description: _Knz0YjEeSNTa9WDz2v9DQs6Bb7ycz8l
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dati di chiusura del giorno precedente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        T:
+                          type: string
+                          description: Simbolo dell'azione
+                        c:
+                          type: number
+                          description: Prezzo di chiusura
+                        h:
+                          type: number
+                          description: Prezzo massimo
+                        l:
+                          type: number
+                          description: Prezzo minimo
+                        o:
+                          type: number
+                          description: Prezzo di apertura
+                        v:
+                          type: integer
+                          description: Volume di scambi
