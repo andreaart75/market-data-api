@@ -55,3 +55,241 @@ paths:
                   t:
                     type: integer
                     description: Timestamp dell'ultimo aggiornamento
+                    openapi: 3.1.0
+info:
+  title: Finnhub API
+  description: Ottiene dati di mercato, news, sentiment e dati fondamentali da Finnhub.
+  version: 1.1.0
+servers:
+  - url: "https://finnhub.io/api/v1"
+
+paths:
+  /quote:
+    get:
+      operationId: getStockQuote
+      summary: Ottiene il prezzo attuale di un'azione
+      parameters:
+        - name: symbol
+          in: query
+          required: true
+          description: Simbolo dell'azione (es. AAPL, TSLA)
+          schema:
+            type: string
+        - name: token
+          in: query
+          required: true
+          description: cuucfhpr01qlidi35km0cuucfhpr01qlidi35kmg
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Prezzo attuale dell'azione
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  c:
+                    type: number
+                    description: Prezzo attuale
+                  h:
+                    type: number
+                    description: Prezzo massimo
+                  l:
+                    type: number
+                    description: Prezzo minimo
+                  o:
+                    type: number
+                    description: Prezzo di apertura
+                  pc:
+                    type: number
+                    description: Prezzo di chiusura precedente
+                  t:
+                    type: integer
+                    description: Timestamp dell'ultimo aggiornamento
+
+  /news:
+    get:
+      operationId: getMarketNews
+      summary: Ottiene le ultime notizie finanziarie
+      parameters:
+        - name: category
+          in: query
+          required: true
+          description: Categoria delle notizie (es. general, forex, crypto, mergers)
+          schema:
+            type: string
+        - name: token
+          in: query
+          required: true
+          description: cuucfhpr01qlidi35km0cuucfhpr01qlidi35kmg
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ultime notizie finanziarie
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    headline:
+                      type: string
+                      description: Titolo della notizia
+                    summary:
+                      type: string
+                      description: Breve descrizione della notizia
+                    source:
+                      type: string
+                      description: Fonte della notizia
+                    datetime:
+                      type: integer
+                      description: Data della notizia (timestamp)
+
+  /news-sentiment:
+    get:
+      operationId: getNewsSentiment
+      summary: Analizza il sentiment del mercato dalle notizie
+      parameters:
+        - name: symbol
+          in: query
+          required: true
+          description: Simbolo dell'azienda (es. AAPL, TSLA)
+          schema:
+            type: string
+        - name: token
+          in: query
+          required: true
+          description: cuucfhpr01qlidi35km0cuucfhpr01qlidi35kmg
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sentiment analysis delle notizie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sentiment:
+                    type: string
+                    description: Sentiment complessivo (positivo, neutro, negativo)
+
+  /economic:
+    get:
+      operationId: getEconomicData
+      summary: Ottiene dati macroeconomici globali
+      parameters:
+        - name: indicator
+          in: query
+          required: true
+          description: Indicatore macroeconomico (es. GDP, CPI, Unemployment)
+          schema:
+            type: string
+        - name: country
+          in: query
+          required: false
+          description: Paese per i dati macroeconomici (es. US, EU, CN)
+          schema:
+            type: string
+        - name: token
+          in: query
+          required: true
+          description: cuucfhpr01qlidi35km0cuucfhpr01qlidi35kmg
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dati macroeconomici globali
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  indicator:
+                    type: string
+                    description: Nome dell'indicatore
+                  country:
+                    type: string
+                    description: Paese di riferimento
+                  value:
+                    type: number
+                    description: Valore dell'indicatore
+
+  /company-events:
+    get:
+      operationId: getCompanyEvents
+      summary: Ottiene eventi aziendali importanti (earnings, dividendi, IPO)
+      parameters:
+        - name: symbol
+          in: query
+          required: true
+          description: Simbolo dell'azienda (es. AAPL, TSLA)
+          schema:
+            type: string
+        - name: token
+          in: query
+          required: true
+          description: cuucfhpr01qlidi35km0cuucfhpr01qlidi35kmg
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Eventi aziendali importanti
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    event_type:
+                      type: string
+                      description: Tipo di evento (earnings, dividend, IPO)
+                    date:
+                      type: string
+                      description: Data dell'evento
+                    value:
+                      type: string
+                      description: Dettagli dell'evento
+
+  /stock-metric:
+    get:
+      operationId: getStockFundamentals
+      summary: Ottiene dati fondamentali di un'azienda
+      parameters:
+        - name: symbol
+          in: query
+          required: true
+          description: Simbolo dell'azienda (es. AAPL, TSLA)
+          schema:
+            type: string
+        - name: metric
+          in: query
+          required: true
+          description: Tipo di metrica fondamentale (es. all, valuation, profitability)
+          schema:
+            type: string
+        - name: token
+          in: query
+          required: true
+          description: cuucfhpr01qlidi35km0cuucfhpr01qlidi35kmg
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dati fondamentali dell'azienda
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  metric:
+                    type: string
+                    description: Nome della metrica
+                  value:
+                    type: string
+                    description: Valore della metrica
+
